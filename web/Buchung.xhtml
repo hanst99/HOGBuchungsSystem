@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:view>
+    <h:head>
+        <title>Buchungssystem der Herz-Aus-Gold</title>
+    </h:head>
+    <h:body>
+        <p:fieldset legend="Anhalteranmeldung">
+            <h:form>
+                <p:panelGrid columns="1">
+                    <p:inputText label="Name" value="${order.customerName}"/>
+                    <p:selectOneMenu value="${order.goalPlanet}">
+                        <f:selectItem itemLabel="Zielplanet" itemValue=""/>
+                        <f:selectItems value="${planets.planets}" var="planet"
+                                       itemValue="${planet.name}" itemLabel="${planet.name}"/>
+                    </p:selectOneMenu>
+                    <h:commandButton value="Sub-Etha-Sens-O-Matic aktivieren" action="${order.placeOrder}"/>
+                </p:panelGrid>
+            </h:form>
+        </p:fieldset>
+        <h:outputText value="${order.customerName}"/>
+        <h:outputText value="${order.goalPlanet}"/>
+    </h:body>
+</f:view>
+</html>
