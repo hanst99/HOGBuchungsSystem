@@ -13,19 +13,35 @@
     <h:body>
         <p:fieldset legend="Anhalteranmeldung">
             <h:form>
-                <p:panelGrid columns="1">
-                    <p:inputText label="Name" value="${order.customerName}"/>
-                    <p:selectOneMenu value="${order.goalPlanet}">
-                        <f:selectItem itemLabel="Zielplanet" itemValue=""/>
-                        <f:selectItems value="${planets.planets}" var="planet"
-                                       itemValue="${planet.name}" itemLabel="${planet.name}"/>
-                    </p:selectOneMenu>
-                    <h:commandButton value="Sub-Etha-Sens-O-Matic aktivieren" action="${order.placeOrder}"/>
+                <p:messages id="confirmSubmission" showDetail="true"/>
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="in_customerName" value="Name"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="in_customerName" value="${order.customerName}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="in_goalPlanet" value="Zielplanet"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="in_goalPlanet" value="${order.goalPlanet}" label="Zielplanet">
+                                <f:selectItems value="${planets.planets}" var="planet"
+                                               itemValue="${planet.name}" itemLabel="${planet.name}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2">
+                            <h:commandButton value="Sub-Etha-Sens-O-Matic aktivieren" action="${order.placeOrder}"/>
+                        </p:column>
+                    </p:row>
                 </p:panelGrid>
             </h:form>
         </p:fieldset>
-        <h:outputText value="${order.customerName}"/>
-        <h:outputText value="${order.goalPlanet}"/>
     </h:body>
 </f:view>
 </html>

@@ -28,4 +28,26 @@ public class Planet {
     public Planet(String name) {
         this.name = name;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Planet planet = (Planet) o;
+
+        if (!name.equals(planet.name)) return false;
+
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
 }

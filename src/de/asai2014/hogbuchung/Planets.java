@@ -3,19 +3,25 @@ package de.asai2014.hogbuchung;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.inject.Singleton;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 @Named
 @Singleton
 public class Planets {
-    private List<Planet> planets;
+    private Set<Planet> planets;
 
     @PostConstruct
     private void initialize() {
-        planets = new ArrayList<>();
+        planets = new CopyOnWriteArraySet<>();
+        Collections.addAll(planets, new Planet("Mars"), new Planet("Venus"));
     }
-    public List<Planet> getPlanets() {
+    public Set<Planet> getPlanets() {
         return planets;
+    }
+
+    public void save(Planet planet) {
+        planets.add(planet);
     }
 }
