@@ -5,53 +5,67 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jstl/core">
 <f:view>
     <h:head>
         <title>Buchungssystem der Herz-Aus-Gold</title>
     </h:head>
     <h:body>
-        <p:fieldset legend="Anhalteranmeldung">
-            <h:form>
-                <p:messages id="confirmSubmission" showSummary="false" showDetail="true" autoUpdate="true" closable="true"/>
-                <p:panelGrid>
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel for="in_customerName" value="Name"/>
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="in_customerName" value="${order.customer.name}"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel for="in_goalPlanet" value="Zielplanet"/>
-                        </p:column>
-                        <p:column>
-                            <p:selectOneMenu id="in_goalPlanet" value="${order.customer.goalPlanet}" label="Zielplanet"
-                                             converter="${planetConverter}">
-                                <f:selectItems value="${planets.planets}" var="planet"
-                                               itemValue="${planet.name}" itemLabel="${planet.name}"/>
-                            </p:selectOneMenu>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel for="in_cabins" value="Anzahl Kabinen"/>
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="in_cabins" value="${order.customer.cabins}"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column colspan="2">
-                            <p:commandButton ajax="false" value="Sub-Etha-Sens-O-Matic aktivieren"
-                                             action="${order.placeOrder}"/>
-                        </p:column>
-                    </p:row>
-                </p:panelGrid>
-            </h:form>
-        </p:fieldset>
+        <c:choose>
+            <c:when test="${not empty currentUser.user and currentUser.user.role=='Customer'}">
+                <c:choose>
+                    <c:when test="${currentUser.user.placedOrder}">
+                        <p>
+                            Sie werden derzeitig transportiert. Bitte warten sie bis sie ihr Ziel erreicht haben!
+                        </p>
+                    </c:when>
+                    <c:otherwise>
+                        <p:fieldset legend="Anhalteranmeldung">
+                            <h:form>
+                                <p:messages id="confirmSubmission" showSummary="false" showDetail="true"
+                                            autoUpdate="true"
+                                            closable="true"/>
+                                <p:panelGrid>
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel for="in_goalPlanet" value="Zielplanet"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="in_goalPlanet" value="${orderForm.planet}"
+                                                             label="Zielplanet"
+                                                             converter="${planetConverter}">
+                                                <f:selectItems value="${planets.planets}" var="planet"
+                                                               itemValue="${planet}" itemDescription="${planet.name}"/>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel for="in_cabins" value="Anzahl Kabinen"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="in_cabins" value="${orderForm.cabins}"/>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column colspan="2">
+                                            <p:commandButton ajax="false" value="Sub-Etha-Sens-O-Matic aktivieren"
+                                                             action="${orderForm.placeOrder}"/>
+                                        </p:column>
+                                    </p:row>
+                                </p:panelGrid>
+                            </h:form>
+                        </p:fieldset>
+                    </c:otherwise>
+                </c:choose>
+            </c:when>
+            <c:otherwise>
+                <p>
+                    Diese Seite ist nur für Kunden zugänglich! <h:link outcome="index" value="Startseite"/>
+                </p>
+            </c:otherwise>
+        </c:choose>
     </h:body>
 </f:view>
 </html>

@@ -5,57 +5,71 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jstl/core">
 <f:view>
     <h:head>
         <title>Verwaltungssystem der Herz aus Gold - Administrierung</title>
     </h:head>
     <h:body>
-        <h:form>
-            <p:outputLabel for="selectDestination" value="Zielplanet auswählen"/>
-            <p:selectOneMenu id="selectDestination" value="${selectNextPlanet.nextPlanet}" converter="${planetConverter}">
-                <f:selectItems value="${planets.planets}" var="planet"
-                               itemValue="${planet}" itemDescription="${planet.name}"/>
-            </p:selectOneMenu>
-            <p:commandButton ajax="false" value="Anfliegen" action="${selectNextPlanet.dropOffCustomers}"/>
-        </h:form>
-        <h:form id="createPlanet">
-            <p:fieldset legend="Neuen Zielplaneten anlegen" toggleable="true" collapsed="true">
-                <p:panelGrid>
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel for="newPlanetName" value="Name"/>
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="newPlanetName" value="${addDestinationPlanet.newDestination.name}"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column colspan="2">
-                            <p:commandButton update=":selectDestination:newPlanetName"
-                                             ajax="false" value="Anlegen" action="${addDestinationPlanet.add}"/>
-                        </p:column>
-                    </p:row>
-                </p:panelGrid>
-            </p:fieldset>
-        </h:form>
+        <c:choose>
+            <c:when test="${not empty currentUser.user and currentUser.user.role == 'Admin' }">
+                <h:form>
+                    <p:outputLabel for="selectDestination" value="Zielplanet auswählen"/>
+                    <p:selectOneMenu id="selectDestination" value="${selectNextPlanet.nextPlanet}"
+                                     converter="${planetConverter}">
+                        <f:selectItems value="${planets.planets}" var="planet"
+                                       itemValue="${planet}" itemDescription="${planet.name}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton ajax="false" value="Anfliegen" action="${selectNextPlanet.dropOffCustomers}"/>
+                </h:form>
+                <h:form id="createPlanet">
+                    <p:fieldset legend="Neuen Zielplaneten anlegen" toggleable="true" collapsed="true">
+                        <p:panelGrid>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel for="newPlanetName" value="Name"/>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="newPlanetName"
+                                                 value="${addDestinationPlanet.newDestination.name}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:commandButton update=":selectDestination:newPlanetName"
+                                                     ajax="false" value="Anlegen" action="${addDestinationPlanet.add}"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </p:fieldset>
+                </h:form>
 
-        <h1>Passagierstatus</h1>
+                <h1>Passagierstatus</h1>
 
-        <p>Verbrauchte Kabinen: <h:outputText value="${customers.usedCabins}"/>/<h:outputText
-                value="${customers.maxCabins}"/></p>
+                <p>Verbrauchte Kabinen: <h:outputText value="${orders.usedCabins}"/>/<h:outputText
+                        value="${orders.maxCabins}"/></p>
 
-        <p:dataTable var="customer" value="${customers.customers}">
-            <p:column headerText="Anhalter">
-                <h:outputText value="${customer.name}"/>
-            </p:column>
-            <p:column headerText="Zielplanet">
-                <h:outputText value="${customer.goalPlanet}"/>
-            </p:column>
-            <p:column headerText="Kabinen">
-                <h:outputText value="${customer.cabins}"/>
-            </p:column>
-        </p:dataTable>
+                <p:dataTable var="customer" value="${orders.orders}">
+                    <p:column headerText="Anhalter">
+                        <h:outputText value="${customer.user.userName}"/>
+                    </p:column>
+                    <p:column headerText="Zielplanet">
+                        <h:outputText value="${customer.goalPlanet}"/>
+                    </p:column>
+                    <p:column headerText="Kabinen">
+                        <h:outputText value="${customer.cabins}"/>
+                    </p:column>
+                </p:dataTable>
+            </c:when>
+            <c:otherwise>
+                <p>
+                    Diese Seite ist nur für Administratoren (und Kapitäne) zugänglich! <h:link outcome="index"
+                                                                                           value="Startseite"/>
+                </p>
+
+            </c:otherwise>
+        </c:choose>
+
     </h:body>
 </f:view>
 </html>

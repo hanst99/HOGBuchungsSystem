@@ -9,10 +9,8 @@ import javax.validation.constraints.Size;
 /**
  * Created by hannes on 6/21/14.
  */
-@Entity
 public class Planet {
 
-    @Id
     private String name;
 
     public Planet() {
@@ -31,7 +29,6 @@ public class Planet {
         this.name = name;
     }
 
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -43,12 +40,10 @@ public class Planet {
         return true;
     }
 
-    @Override
     public String toString() {
         return name;
     }
 
-    @Override
     public int hashCode() {
         return name.hashCode();
     }

@@ -1,6 +1,6 @@
 package de.asai2014.hogbuchung.captain;
 
-import de.asai2014.hogbuchung.Customers;
+import de.asai2014.hogbuchung.customer.Orders;
 import de.asai2014.hogbuchung.Planet;
 
 import javax.enterprise.context.RequestScoped;
@@ -16,7 +16,7 @@ import javax.inject.Named;
 public class SelectNextPlanet {
     private Planet nextPlanet;
     @Inject
-    private Customers customers;
+    private Orders orders;
     public Planet getNextPlanet() {
         return nextPlanet;
     }
@@ -26,6 +26,6 @@ public class SelectNextPlanet {
     }
 
     public void dropOffCustomers() {
-        customers.dropOffAt(nextPlanet);
+        orders.dropOffAt(nextPlanet);
     }
 }
