@@ -19,15 +19,11 @@ public class Customer {
     @Id
     private long id;
 
-//    @NotNull
-//    @Size(min = 1)
     private String name;
+
     @ManyToOne
-//    @NotNull
     private Planet goalPlanet;
 
-//    @Min(1)
-//    @Max(42)
     private long cabins;
 
     public String getName() {

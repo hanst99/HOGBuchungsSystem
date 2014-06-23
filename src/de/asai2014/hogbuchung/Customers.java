@@ -3,6 +3,9 @@ package de.asai2014.hogbuchung;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.TypedQuery;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -15,6 +18,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @Named
 @Singleton
 public class Customers {
+
 
     private final long maxCabins = 42;
     private List<Customer> customers;
@@ -31,10 +35,10 @@ public class Customers {
     }
 
     public synchronized boolean save(Customer customer) {
-        long totalCabins = usedCabins + customer.getCabins();
-        if (totalCabins <= maxCabins) {
-            customers.add(customer);
+        long totalCabins = customer.getCabins() + usedCabins;
+        if(totalCabins <= maxCabins) {
             usedCabins = totalCabins;
+            customers.add(customer);
             return true;
         }
         return false;

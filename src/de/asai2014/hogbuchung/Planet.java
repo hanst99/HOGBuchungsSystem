@@ -13,7 +13,6 @@ import javax.validation.constraints.Size;
 public class Planet {
 
     @Id
-//    @Size(min=1)
     private String name;
 
     public Planet() {
