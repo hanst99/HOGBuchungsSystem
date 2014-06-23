@@ -1,10 +1,15 @@
 package de.asai2014.hogbuchung.customer;
 
 import com.sun.javafx.binding.StringFormatter;
+import de.asai2014.hogbuchung.Customer;
+import de.asai2014.hogbuchung.Customers;
+import de.asai2014.hogbuchung.Planet;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -13,27 +18,35 @@ import javax.inject.Named;
 @Named
 @RequestScoped
 public class Order {
-    private String customerName;
-    private String goalPlanet;
+    private Customer customer;
 
-    public String getGoalPlanet() {
-        return goalPlanet;
+    @Inject
+    private Customers customers;
+
+    @PostConstruct
+    private void initialize() {
+        customer = new Customer();
     }
 
-    public void setGoalPlanet(String goalPlanet) {
-        this.goalPlanet = goalPlanet;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
 
     public void placeOrder() {
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", String.format("%s ++ %s", customerName, goalPlanet)));
+        FacesMessage message;
+        if(customers.save(customer)) {
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
+                    "Auftrag akzeptiert!");
+        } else {
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fehler",
+                            "Kabinenzahl übersteigt Kapazität, Auftrag abgelehnt!");
+        }
+        FacesContext.getCurrentInstance().addMessage("confirmSubmission",
+                message);
     }
 }

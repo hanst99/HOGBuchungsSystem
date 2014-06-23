@@ -13,14 +13,14 @@
     <h:body>
         <p:fieldset legend="Anhalteranmeldung">
             <h:form>
-                <p:messages id="confirmSubmission" showDetail="true"/>
+                <p:messages id="confirmSubmission" showSummary="false" showDetail="true" autoUpdate="true" closable="true"/>
                 <p:panelGrid>
                     <p:row>
                         <p:column>
                             <p:outputLabel for="in_customerName" value="Name"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="in_customerName" value="${order.customerName}"/>
+                            <p:inputText id="in_customerName" value="${order.customer.name}"/>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -28,15 +28,25 @@
                             <p:outputLabel for="in_goalPlanet" value="Zielplanet"/>
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="in_goalPlanet" value="${order.goalPlanet}" label="Zielplanet">
+                            <p:selectOneMenu id="in_goalPlanet" value="${order.customer.goalPlanet}" label="Zielplanet"
+                                             converter="${planetConverter}">
                                 <f:selectItems value="${planets.planets}" var="planet"
                                                itemValue="${planet.name}" itemLabel="${planet.name}"/>
                             </p:selectOneMenu>
                         </p:column>
                     </p:row>
                     <p:row>
+                        <p:column>
+                            <p:outputLabel for="in_cabins" value="Anzahl Kabinen"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="in_cabins" value="${order.customer.cabins}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
                         <p:column colspan="2">
-                            <h:commandButton value="Sub-Etha-Sens-O-Matic aktivieren" action="${order.placeOrder}"/>
+                            <p:commandButton ajax="false" value="Sub-Etha-Sens-O-Matic aktivieren"
+                                             action="${order.placeOrder}"/>
                         </p:column>
                     </p:row>
                 </p:panelGrid>

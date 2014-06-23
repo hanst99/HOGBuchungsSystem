@@ -12,11 +12,12 @@
     </h:head>
     <h:body>
         <h:form>
-            <p:outputLabel for="selectDestination"/>
-            <p:selectOneMenu id="selectDestination">
+            <p:outputLabel for="selectDestination" value="Zielplanet auswählen"/>
+            <p:selectOneMenu id="selectDestination" value="${selectNextPlanet.nextPlanet}" converter="${planetConverter}">
                 <f:selectItems value="${planets.planets}" var="planet"
-                               itemValue="${planet.name}" itemDescription="${planet.name}"/>
+                               itemValue="${planet}" itemDescription="${planet.name}"/>
             </p:selectOneMenu>
+            <p:commandButton ajax="false" value="Anfliegen" action="${selectNextPlanet.dropOffCustomers}"/>
         </h:form>
         <h:form id="createPlanet">
             <p:fieldset legend="Neuen Zielplaneten anlegen" toggleable="true" collapsed="true">
@@ -32,12 +33,29 @@
                     <p:row>
                         <p:column colspan="2">
                             <p:commandButton update=":selectDestination:newPlanetName"
-                                             ajax="false" value="Anlegen" action="${addDestinationPlanet.add}" />
+                                             ajax="false" value="Anlegen" action="${addDestinationPlanet.add}"/>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
             </p:fieldset>
         </h:form>
+
+        <h1>Passagierstatus</h1>
+
+        <p>Verbrauchte Kabinen: <h:outputText value="${customers.usedCabins}"/>/<h:outputText
+                value="${customers.maxCabins}"/></p>
+
+        <p:dataTable var="customer" value="${customers.customers}">
+            <p:column headerText="Anhalter">
+                <h:outputText value="${customer.name}"/>
+            </p:column>
+            <p:column headerText="Zielplanet">
+                <h:outputText value="${customer.goalPlanet}"/>
+            </p:column>
+            <p:column headerText="Kabinen">
+                <h:outputText value="${customer.cabins}"/>
+            </p:column>
+        </p:dataTable>
     </h:body>
 </f:view>
 </html>

@@ -3,6 +3,8 @@ package de.asai2014.hogbuchung;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Created by hannes on 6/21/14.
@@ -11,6 +13,7 @@ import javax.persistence.Id;
 public class Planet {
 
     @Id
+//    @Size(min=1)
     private String name;
 
     public Planet() {

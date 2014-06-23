@@ -47,6 +47,7 @@
     <orderEntry type="library" name="apache-fileupload:commons-fileupload:1.0" level="project" />
     <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
     <orderEntry type="library" name="Apache OpenWebBeans-1.1.4" level="project" />
+    <orderEntry type="library" name="bean-validator" level="project" />
   </component>
 </module>
 
